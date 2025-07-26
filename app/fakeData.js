@@ -1,0 +1,63 @@
+const papers = [
+  {
+    id: '1',
+    title: 'Board Exam',
+    description: 'ICSE Math 2024 board paper',
+    chapters: ['All'],
+    author: 'Steve',
+    date: '5th August',
+    views: 1000,
+    rating: 4.5,
+    thumbnailUrl: `https://picsum.photos/seed/1/900/1600`,
+    board: 'ICSE',
+    subject: 'Math',
+    school: 'XYZ Public School',
+  },
+  {
+    id: '2',
+    title: 'Worksheet',
+    description: 'Physics Worksheet 2023',
+    chapters: ['Ch. 1', 'Ch. 2'],
+    author: 'Alex',
+    date: '12th July',
+    views: 800,
+    rating: 4.2,
+    thumbnailUrl: `https://picsum.photos/seed/2/900/1600`,
+    board: 'CBSE',
+    subject: 'Physics',
+    school: 'Delhi Public School',
+  },
+  {
+    id: '3',
+    title: 'Cheatsheet',
+    description: 'Chemistry Quick Notes',
+    chapters: ['Organic'],
+    author: 'Sam',
+    date: '20th June',
+    views: 500,
+    rating: 4.8,
+    thumbnailUrl: `https://picsum.photos/seed/3/900/1600`,
+    board: 'ICSE',
+    subject: 'Chemistry',
+    school: 'St. Xavier’s',
+  },
+  {
+    id: '4',
+    title: 'Sample Paper',
+    description: 'Math Sample 2022',
+    chapters: ['All'],
+    author: 'Riya',
+    date: '3rd May',
+    views: 600,
+    rating: 4.0,
+    thumbnailUrl: `https://picsum.photos/seed/4/900/1600`,
+    board: 'CBSE',
+    subject: 'Math',
+    school: 'Delhi Public School',
+  },
+];
+
+export default papers;
+export const boards = ['ICSE', 'CBSE', 'State Board'];
+export const subjects = ['Math', 'Physics', 'Chemistry', 'Biology'];
+export const schools = ['XYZ Public School', 'Delhi Public School', 'St. Xavier’s'];

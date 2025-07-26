@@ -1,17 +1,16 @@
-//The card for each paper in the any tab
-import { StyleSheet , View, Text, Image, useColorScheme } from 'react-native';
+import { StyleSheet , View, Text, Image, Pressable } from 'react-native';
 import Icons from '@expo/vector-icons/MaterialIcons';
+import { useRouter } from 'expo-router';
+import theme from '@/constants/Colors';
 
-type IconProps = {
-  name: React.ComponentProps<typeof Icons>['name'];
-  color?: string;
-};
+const router = useRouter();
 
 function Icon({ name, color = '#666' }: { name: React.ComponentProps<typeof Icons>['name'], color?: string }) {
   return <Icons name={name} size={16} color={color} style={{ marginRight: 3 }} />;
 }
 
 type PaperCardProps = {
+  id: string;
   title?: string;
   description?: string;
   chapters?: string[];
@@ -21,9 +20,13 @@ type PaperCardProps = {
   rating?: number;
   thumbnailUrl?: string;
   style?: object;
+  board?: string;
+  subject?: string;
+  school?: string;
 };
 
 export default function PaperCard({
+  id = '',
   title = 'Untitled',
   description = 'No description available.',
   chapters = [],
@@ -33,21 +36,15 @@ export default function PaperCard({
   rating = 0,
   thumbnailUrl,
   style,
+  board = 'N/A',
+  subject = 'N/A',
+  school = 'N/A',
 }: PaperCardProps) {
-  const theme = useColorScheme();
-  const isDark = theme === 'dark';
 
-  const colors = {
-    background: isDark ? '#1a1a1a' : '#fff',
-    textPrimary: isDark ? '#f8f8f8' : '#111',
-    textSecondary: isDark ? '#ccc' : '#444',
-    tagBackground: isDark ? '#333' : '#eee',
-    tagText: isDark ? '#eee' : '#222',
-    shadow: isDark ? '#000' : '#000',
-  };
+  const Colors = theme();
 
   return (
-    <View style={[styles.card, { backgroundColor: colors.background, shadowColor: colors.shadow }, style]}>
+    <Pressable onPress={() => router.push(`/paper/${id}`)} style={[styles.card, { backgroundColor: Colors.background, shadowColor: Colors.shadow }, style]}>
       {thumbnailUrl && (
         <Image
           source={{ uri: thumbnailUrl }}
@@ -56,15 +53,16 @@ export default function PaperCard({
         />
       )}
 
-      <Text style={[styles.title, { color: colors.textPrimary }]}>{title}</Text>
-      <Text style={[styles.description, { color: colors.textSecondary }]}>{description}</Text>
+      <Text style={[styles.title, { color: Colors.text }]}>{title}</Text>
+      <Text style={[styles.description, { color: Colors.textSecondary }]}>{description} </Text>
+      <Text style={[styles.description, { color: Colors.textSecondary }]}>School: {school}</Text>
 
       {chapters.length > 0 && (
         <View style={styles.tags}>
           {chapters.map((tag, idx) => (
             <Text key={idx} style={[styles.tag, {
-              backgroundColor: colors.tagBackground,
-              color: colors.tagText
+              backgroundColor: Colors.tagBackground,
+              color: Colors.tagText
             }]}>
               {tag}
             </Text>
@@ -74,26 +72,37 @@ export default function PaperCard({
 
       <View style={styles.metaRow}>
         <View style={styles.metaItem}>
-          <Icon name="person" color={colors.textSecondary} />
-          <Text style={[styles.metaText, { color: colors.textSecondary }]}>{author}</Text>
+          <Icon name="school" color={Colors.textSecondary} />
+          <Text style={[styles.metaText, { color: Colors.textSecondary }]}>{board}</Text>
         </View>
         <View style={styles.metaItem}>
-          <Icon name="calendar-today" color={colors.textSecondary} />
-          <Text style={[styles.metaText, { color: colors.textSecondary }]}>{date}</Text>
+          <Icon name="subject" color={Colors.textSecondary} />
+          <Text style={[styles.metaText, { color: Colors.textSecondary }]}>{subject}</Text>
         </View>
       </View>
 
       <View style={styles.metaRow}>
         <View style={styles.metaItem}>
-          <Icon name="visibility" color={colors.textSecondary} />
-          <Text style={[styles.metaText, { color: colors.textSecondary }]}>{views}</Text>
+          <Icon name="person" color={Colors.textSecondary} />
+          <Text style={[styles.metaText, { color: Colors.textSecondary }]}>{author}</Text>
         </View>
         <View style={styles.metaItem}>
-          <Icon name="star" color={colors.textSecondary} />
-          <Text style={[styles.metaText, { color: colors.textSecondary }]}>{rating}/5</Text>
+          <Icon name="calendar-today" color={Colors.textSecondary} />
+          <Text style={[styles.metaText, { color: Colors.textSecondary }]}>{date}</Text>
         </View>
       </View>
-    </View>
+
+      <View style={styles.metaRow}>
+        <View style={styles.metaItem}>
+          <Icon name="visibility" color={Colors.textSecondary} />
+          <Text style={[styles.metaText, { color: Colors.textSecondary }]}>{views}</Text>
+        </View>
+        <View style={styles.metaItem}>
+          <Icon name="star" color={Colors.textSecondary} />
+          <Text style={[styles.metaText, { color: Colors.textSecondary }]}>{rating}/5</Text>
+        </View>
+      </View>
+    </Pressable>
   );
 }
 

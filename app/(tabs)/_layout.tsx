@@ -1,7 +1,6 @@
 import React from 'react';
 import { Tabs } from 'expo-router';
-import { useColorScheme } from 'react-native';
-import Colors from '@/constants/Colors';
+import theme from '@/constants/Colors';
 import Icons from '@expo/vector-icons/MaterialIcons';
 
 type IconProps = {
@@ -14,19 +13,17 @@ function Icon({ name, color = '#666' }: IconProps) {
 }
 
 export default function TabLayout() {
-  const colorScheme = useColorScheme();
-  const isDark = colorScheme === 'dark';
-  console.log('TabLayout colorScheme:', colorScheme);
+  const Colors = theme();
 
   return (
     <Tabs
       screenOptions={{
         headerShown: false,
-        tabBarActiveTintColor: Colors[colorScheme ?? 'light'].tint,
-        tabBarInactiveTintColor: isDark ? '#888' : '#888',
+        tabBarActiveTintColor: Colors.tint,
+        tabBarInactiveTintColor: '#888',
         tabBarStyle: {
-          backgroundColor: isDark ? '#121212' : '#ffffff',
-          borderTopColor: isDark ? '#333' : '#ddd',
+          backgroundColor: Colors.background,
+          borderTopColor: Colors.border,
           paddingBottom: 4,
           paddingTop: 2,
           height: 60,
