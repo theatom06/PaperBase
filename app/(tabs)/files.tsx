@@ -49,6 +49,8 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     gap: 4,
     paddingBottom: 10,
+    borderBottomLeftRadius: 16,
+    borderBottomRightRadius: 16,
   },
 
   titleText: {

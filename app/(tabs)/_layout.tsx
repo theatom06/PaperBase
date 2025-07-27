@@ -9,7 +9,7 @@ type IconProps = {
 };
 
 function Icon({ name, color = '#666' }: IconProps) {
-  return <Icons name={name} size={26} color={color} style={{ marginBottom: -2 }} />;
+  return <Icons name={name} size={32} color={color} style={{ marginBottom: -2 }} />;
 }
 
 export default function TabLayout() {
@@ -24,9 +24,10 @@ export default function TabLayout() {
         tabBarStyle: {
           backgroundColor: Colors.background,
           borderTopColor: Colors.border,
-          paddingBottom: 4,
-          paddingTop: 2,
-          height: 60,
+          padding: 16,
+          height: 64,
+          borderTopLeftRadius: 16,
+          borderTopRightRadius: 16,
         },
         tabBarLabelStyle: {
           fontSize: 12,
