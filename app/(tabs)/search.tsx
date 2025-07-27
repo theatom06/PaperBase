@@ -92,6 +92,8 @@ export default function SearchScreen() {
           data={results}
           keyExtractor={(item) => item.id}
           renderItem={({ item }) => <Paper {...item} />}
+          contentContainerStyle={styles.list}
+          style={{ flexGrow: 1 }}
         />
       </View>
     </>
@@ -103,10 +105,21 @@ const styles = StyleSheet.create({
     flex: 1,
     padding: 16,
   },
+
   input: {
     backgroundColor: '#eee',
     padding: 12,
     borderRadius: 8,
     marginBottom: 12,
+  },
+
+  list: {
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    justifyContent: 'center',
+    alignItems: 'stretch',
+    padding: 8,
+    width: '100%',
+    gap: 8,
   },
 });

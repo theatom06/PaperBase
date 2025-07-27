@@ -1,5 +1,13 @@
 import { useColorScheme } from 'react-native';
 
+const colors = {
+  dangerRed: '#eb4034',
+  successGreen: '#00ff00',
+  warningYellow: '#ffff00',
+  infoBlue: '#0000ff',
+  tint: '#2f95dc',
+}
+
 const lightTheme = {
   text: '#000000',
   textSecondary: '#666666',
@@ -8,8 +16,8 @@ const lightTheme = {
   mainBackground: '#ffffff',
   tagBackground: '#eeeeee',
   shadow: '#cccccc',
-  tint: '#2f95dc',
   border: '#dddddd',
+  ...colors,
 };
 
 const darkTheme = {
@@ -20,8 +28,8 @@ const darkTheme = {
   mainBackground: '#1a1a1a',
   tagBackground: '#333333',
   shadow: '#000000',
-  tint: '#2f95dc',
   border: '#444444',
+  ...colors,
 };
 
 export default function useTheme () {
