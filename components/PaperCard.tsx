@@ -1,7 +1,7 @@
 import { StyleSheet , View, Text, Image, Pressable, useWindowDimensions } from 'react-native';
 import Icons from '@expo/vector-icons/MaterialIcons';
 import { useRouter } from 'expo-router';
-import theme from '@/constants/Colors';
+import Colors from '@/constants/Colors';
 const router = useRouter();
 
 function Icon({ name, color = '#666' }: { name: React.ComponentProps<typeof Icons>['name'], color?: string }) {
@@ -15,8 +15,6 @@ type PaperCardProps = {
   chapters?: string[];
   author?: string;
   date?: string;
-  views?: number;
-  rating?: number;
   thumbnailUrl?: string;
   style?: object;
   board?: string;
@@ -31,22 +29,18 @@ export default function PaperCard({
   chapters = [],
   author = 'Unknown',
   date = 'N/A',
-  views = 0,
-  rating = 0,
   thumbnailUrl,
   style,
   board = 'N/A',
   subject = 'N/A',
   school = 'N/A',
 }: PaperCardProps) {
-
-  const Colors = theme();
-  const { width } = useWindowDimensions();
+  const w = useWindowDimensions();
 
 
   const styles = StyleSheet.create({
     card: {
-      width: width < 600 ? '100%' : 300,
+      width: w.width < 600 ? '100%' : 300,
       minWidth: 300,
       borderRadius: 16,
       padding: 16,
@@ -153,17 +147,6 @@ export default function PaperCard({
         <View style={styles.metaItem}>
           <Icon name="calendar-today" color={Colors.textSecondary} />
           <Text style={[styles.metaText, { color: Colors.textSecondary }]}>{date}</Text>
-        </View>
-      </View>
-
-      <View style={styles.metaRow}>
-        <View style={styles.metaItem}>
-          <Icon name="visibility" color={Colors.textSecondary} />
-          <Text style={[styles.metaText, { color: Colors.textSecondary }]}>{views}</Text>
-        </View>
-        <View style={styles.metaItem}>
-          <Icon name="star" color={Colors.textSecondary} />
-          <Text style={[styles.metaText, { color: Colors.textSecondary }]}>{rating}/5</Text>
         </View>
       </View>
     </Pressable>

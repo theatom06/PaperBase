@@ -1,16 +1,13 @@
 import { useLocalSearchParams, Stack } from 'expo-router';
 import { Text, View, StyleSheet, Pressable, Image, ScrollView } from 'react-native';
-import { useMemo, useState } from 'react';
 import { MaterialIcons, MaterialCommunityIcons } from '@expo/vector-icons';
-import theme from '@/constants/Colors';
+import Colors from '@/constants/Colors';
 
 export default function PaperDetailScreen() {
-  const Colors = theme();
   const { id } = useLocalSearchParams();
 
   // Simulated data for the paper detail
   const name = id ? `1st Mid Term` : 'Paper Detail';
-  const views = useMemo(() => Math.floor(Math.random() * 1000) + 100, []);
   const author = "Steve";
   const published = '18 July 25';
   const description = "This is a sample paper for the 1st Mid Term exam. It covers all the important topics and is designed to help students prepare effectively.";
@@ -18,7 +15,6 @@ export default function PaperDetailScreen() {
   const board = 'CBSE';
   const subject = 'Mathematics';
   const school = 'ABC High School';
-  const [rating, setRating] = useState(0);
 
   return (
     <>
@@ -77,37 +73,11 @@ export default function PaperDetailScreen() {
             </View>
           </View>
 
-          <View style={styles.metadata}>
-
-            <View style={styles.metaElement}>
-              <MaterialIcons name="visibility" size={24} color={Colors.textSecondary} />
-              <Text style={[styles.metaText, { color: Colors.text }]}>{views} views</Text>
-            </View>
-
-            <View style={styles.metaElement}>
-              <MaterialIcons name="star" size={24} color={Colors.textSecondary} />
-              <Text style={[styles.metaText, { color: Colors.text }]}>4.5/5</Text>
-            </View>
-         </View>
-
           <View style={styles.tagsContainer}>
             {tags.map((tag, idx) => (
               <View key={idx} style={[styles.tag, { backgroundColor: Colors.tagBackground }]}>
                 <Text style={{ color: Colors.tagText, fontSize: 16 }}>#{tag}</Text>
               </View>
-            ))}
-          </View>
-
-          <View style={styles.ratingRow}>
-            <Text style={[styles.rateLabel, { color: Colors.textSecondary }]}>Rate this paper:</Text>
-            {[...Array(5)].map((_, i) => (
-                <Pressable key={i} onPress={() => setRating(i + 1)}>
-                  <MaterialIcons
-                    name={i < rating ? 'star' : 'star-border'}
-                    size={28}
-                    color={i < rating ? Colors.warningYellow : Colors.textSecondary}
-                />
-                </Pressable>
             ))}
           </View>
 

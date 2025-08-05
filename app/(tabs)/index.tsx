@@ -1,8 +1,7 @@
 import { StyleSheet, Text, View } from 'react-native';
-import theme from '@/constants/Colors';
+import Colors from '@/constants/Colors';
 
 export default function TabOneScreen() {
-  const Colors = theme();
 
   return (
     <View style={[styles.container, { backgroundColor: Colors.background }]}>

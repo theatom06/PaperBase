@@ -1,6 +1,6 @@
 import { StyleSheet, ScrollView, Text, View } from 'react-native';
 import PaperCard from '@/components/PaperCard';
-import theme from '@/constants/Colors';
+import Colors from '@/constants/Colors';
 import Icons from '@expo/vector-icons/MaterialIcons';
 import papers from '../fakeData';
 
@@ -14,11 +14,10 @@ function Icon({ name, color = '#666' }: IconProps) {
 }
 
 export default function TabOneScreen() {
-  const Colors = theme();
 
   return (
-    <View style={[styles.container, { backgroundColor: Colors.background }]}>
-      <View style={[styles.title, { backgroundColor: Colors.background, borderBottomColor: Colors.border }]}>
+    <View style={styles.container}>
+      <View style={styles.title}>
         <Icon name="folder" color="#666" />
         <Text style={[styles.titleText, { color: Colors.text }]}>Files</Text>
       </View>
@@ -37,6 +36,7 @@ export default function TabOneScreen() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    backgroundColor: Colors.background,
   },
 
   title: {
@@ -51,6 +51,13 @@ const styles = StyleSheet.create({
     paddingBottom: 10,
     borderBottomLeftRadius: 16,
     borderBottomRightRadius: 16,
+    backgroundColor: Colors.mainBackground,
+    borderColor: Colors.border,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.25,
+    shadowRadius: 3.84,
+    elevation: 5,
   },
 
   titleText: {

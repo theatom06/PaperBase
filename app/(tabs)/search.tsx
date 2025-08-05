@@ -1,23 +1,14 @@
-import {
-  View,
-  StyleSheet,
-  TextInput,
-  FlatList,
-  Text,
-  TouchableOpacity,
-  Pressable,
-} from 'react-native';
+import { View, StyleSheet, TextInput, FlatList, Text, TouchableOpacity, Pressable } from 'react-native';
 import { useState } from 'react';
 import { Stack } from 'expo-router';
 import Paper from '@/components/PaperCard';
-import theme from '@/constants/Colors';
+import Colors from '@/constants/Colors';
 import papers, { boards, subjects, schools } from '../fakeData';
 
 const filterTabs = ['Board', 'Subject', 'School'] as const;
 type FilterTab = typeof filterTabs[number];
 
 export default function SearchScreen() {
-  const Colors = theme();
 
   const [query, setQuery] = useState('');
   const [selectedTab, setSelectedTab] = useState<FilterTab>('Board');
@@ -87,75 +78,73 @@ export default function SearchScreen() {
   return (
     <>
       <Stack.Screen options={{ title: 'Search' }} />
-      <View style={[styles.container, { backgroundColor: Colors.background }]}>
-        <TextInput
-          placeholder="Search papers..."
-          value={query}
-          onChangeText={handleSearch}
-          onFocus={() => { setIsExpanded(true); console.log('Input focused'); }}
-          style={styles.input}
-        />
+      <View style={styles.container}>
+        <View style={styles.inputContainer}>
+          <TextInput
+            placeholder="Search papers..."
+            value={query}
+            onChangeText={handleSearch}
+            onFocus={() => { setIsExpanded(true); console.log('Input focused'); }}
+            style={styles.input}
+          />
 
-        {/* Filter Tabs */}
-        {isExpanded && (
-          <>
-            <View style={styles.tabs}>
-              {filterTabs.map((tab) => (
-                <TouchableOpacity
-                  key={tab}
-                  onPress={() => setSelectedTab(tab)}
-                  style={[
-                    styles.tab,
-                    selectedTab === tab && {
-                      borderBottomColor: Colors.tint,
-                      borderBottomWidth: 2,
-                    },
-                  ]}
-                >
-                  <Text
-                    style={{
-                      color: selectedTab === tab ? Colors.tint : '#555',
-                      fontWeight: selectedTab === tab ? 'bold' : 'normal',
-                    }}
+          {isExpanded && (
+            <>
+              <View style={styles.tabs}>
+                {filterTabs.map((tab) => (
+                  <TouchableOpacity
+                    key={tab}
+                    onPress={() => setSelectedTab(tab)}
+                    style={[
+                      styles.tab,
+                      { borderRightWidth: (filterTabs.indexOf(tab) === filterTabs.length - 1) ? 0 : 1 },
+                      selectedTab === tab && {
+                        backgroundColor: Colors.tint,
+                      },
+                    ]}
                   >
-                    {tab}
-                  </Text>
-                </TouchableOpacity>
-              ))}
-            </View>
+                    <Text
+                      style={{
+                        color: selectedTab === tab ? '#fff' : Colors.text,
+                        fontWeight: selectedTab === tab ? 'bold' : 'normal',
+                      }}
+                    >
+                      {tab}
+                    </Text>
+                  </TouchableOpacity>
+                ))}
+              </View>
 
-            {/* Chip Selections */}
-            <View style={styles.chipContainer}>
-              {filterData[selectedTab].map((item: string) =>
-                renderChip(
-                  item,
-                  (selectedTab === 'Board' && selectedBoard === item) ||
-                    (selectedTab === 'Subject' && selectedSubject === item) ||
-                    (selectedTab === 'School' && selectedSchool === item),
-                  () => handleChipSelect(selectedTab, item)
-                )
-              )}
-            </View>
+              <View style={styles.chipContainer}>
+                {filterData[selectedTab].map((item: string) =>
+                  renderChip(
+                    item,
+                    (selectedTab === 'Board' && selectedBoard === item) ||
+                      (selectedTab === 'Subject' && selectedSubject === item) ||
+                      (selectedTab === 'School' && selectedSchool === item),
+                    () => handleChipSelect(selectedTab, item)
+                  )
+                )}
+              </View>
 
-            {/* Collapse button */}
-            <TouchableOpacity
-              style={styles.collapseBtn}
-              onPress={() => setIsExpanded(false)}
-            >
-              <Text style={{ color: Colors.tint }}>Collapse Filters</Text>
-            </TouchableOpacity>
-          </>
-        )}
+              <TouchableOpacity
+                style={styles.collapseBtn}
+                onPress={() => setIsExpanded(false)}
+              >
+                <Text style={{ color: Colors.tint }}>Collapse Filters</Text>
+              </TouchableOpacity>
+            </>
+          )}
 
-        {/* Active Filter Chips (visible when collapsed) */}
-        {!isExpanded && (
+          {!isExpanded && (
           <View style={styles.activeChipsRow}>
             {selectedBoard && renderChip(selectedBoard, true, () => handleChipSelect('Board', selectedBoard))}
             {selectedSubject && renderChip(selectedSubject, true, () => handleChipSelect('Subject', selectedSubject))}
             {selectedSchool && renderChip(selectedSchool, true, () => handleChipSelect('School', selectedSchool))}
           </View>
-        )}
+          )}
 
+        </View>
         <FlatList
           data={results}
           keyExtractor={(item) => item.id}
@@ -171,7 +160,22 @@ export default function SearchScreen() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    padding: 16,
+    padding: 8,
+    backgroundColor: Colors.background,
+  },
+
+  inputContainer: {
+    marginBottom: 16,
+    backgroundColor: Colors.mainBackground,
+    borderRadius: 8,
+    padding: 12,
+    shadowColor: Colors.shadow,
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.1,
+    shadowRadius: 4,
+    elevation: 2,
+    marginHorizontal: 8,
+
   },
 
   input: {
@@ -185,11 +189,16 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-around',
     marginBottom: 12,
+    backgroundColor: Colors.background,
+    borderRadius: 8,
   },
 
   tab: {
     paddingVertical: 6,
     paddingHorizontal: 12,
+    borderLeftColor: Colors.tint,
+    width: '33%',
+    borderColor: Colors.tint,
   },
 
   chipContainer: {
@@ -225,5 +234,6 @@ const styles = StyleSheet.create({
     alignItems: 'stretch',
     padding: 8,
     gap: 8,
+    width: '100%',
   },
 });

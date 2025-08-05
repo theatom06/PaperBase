@@ -1,6 +1,6 @@
 import React from 'react';
 import { Tabs } from 'expo-router';
-import theme from '@/constants/Colors';
+import Colors from '@/constants/Colors';
 import Icons from '@expo/vector-icons/MaterialIcons';
 
 type IconProps = {
@@ -9,26 +9,36 @@ type IconProps = {
 };
 
 function Icon({ name, color = '#666' }: IconProps) {
-  return <Icons name={name} size={32} color={color} style={{ marginBottom: -2 }} />;
+  return <Icons name={name} size={32} color={color} />;
 }
 
 export default function TabLayout() {
-  const Colors = theme();
 
   return (
     <Tabs
+      
       screenOptions={{
         headerShown: false,
         tabBarActiveTintColor: Colors.tint,
         tabBarInactiveTintColor: '#888',
         tabBarStyle: {
-          backgroundColor: Colors.background,
-          borderTopColor: Colors.border,
+          borderColor: Colors.border,
           padding: 16,
+          margin: 8,
+          marginTop: 4,
           height: 64,
-          borderTopLeftRadius: 16,
-          borderTopRightRadius: 16,
+          borderRadius: 16,
+          shadowColor: '#000',
+          shadowOffset: { width: 0, height: 2 },
+          shadowOpacity: 0.25,
+          shadowRadius: 3.84,
+          elevation: 5,
+          display: 'flex',
+          flexDirection: 'row',
+          justifyContent: 'space-around',
+          alignItems: 'center',
         },
+
         tabBarLabelStyle: {
           fontSize: 12,
         },
@@ -56,14 +66,6 @@ export default function TabLayout() {
         options={{
           title: 'Search',
           tabBarIcon: ({ color }) => <Icon name="search" color={color} />,
-        }}
-      />
-
-      <Tabs.Screen
-        name="forum"
-        options={{
-          title: 'Forum',
-          tabBarIcon: ({ color }) => <Icon name="forum" color={color} />,
         }}
       />
 
