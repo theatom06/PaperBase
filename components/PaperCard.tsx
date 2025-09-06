@@ -12,7 +12,6 @@ type PaperCardProps = {
   id: string;
   title?: string;
   description?: string;
-  chapters?: string[];
   author?: string;
   date?: string;
   thumbnailUrl?: string;
@@ -26,7 +25,6 @@ export default function PaperCard({
   id = '',
   title = 'Untitled',
   description = 'No description available.',
-  chapters = [],
   author = 'Unknown',
   date = 'N/A',
   thumbnailUrl,
@@ -70,21 +68,6 @@ export default function PaperCard({
       marginBottom: 12,
     },
 
-    tags: {
-      flexDirection: 'row',
-      flexWrap: 'wrap',
-      marginBottom: 12,
-    },
-
-    tag: {
-      fontSize: 12,
-      paddingHorizontal: 10,
-      paddingVertical: 4,
-      borderRadius: 999,
-      marginRight: 8,
-      marginBottom: 8,
-    },
-
     metaRow: {
       flexDirection: 'row',
       justifyContent: 'space-between',
@@ -114,19 +97,6 @@ export default function PaperCard({
       <Text style={[styles.title, { color: Colors.text }]}>{title}</Text>
       <Text style={[styles.description, { color: Colors.textSecondary }]}>{description} </Text>
       <Text style={[styles.description, { color: Colors.textSecondary }]}>School: {school}</Text>
-
-      {chapters.length > 0 && (
-        <View style={styles.tags}>
-          {chapters.map((tag, idx) => (
-            <Text key={idx} style={[styles.tag, {
-              backgroundColor: Colors.tagBackground,
-              color: Colors.tagText
-            }]}>
-              {tag}
-            </Text>
-          ))}
-        </View>
-      )}
 
       <View style={styles.metaRow}>
         <View style={styles.metaItem}>

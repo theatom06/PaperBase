@@ -3,6 +3,7 @@ import PaperCard from '@/components/PaperCard';
 import Colors from '@/constants/Colors';
 import Icons from '@expo/vector-icons/MaterialIcons';
 import papers from '../fakeData';
+import { BlurView } from 'expo-blur';
 
 type IconProps = {
   name: React.ComponentProps<typeof Icons>['name'];
@@ -39,26 +40,18 @@ const styles = StyleSheet.create({
     backgroundColor: Colors.background,
   },
 
-  title: {
+ title: {
     width: '100%',
-    textAlign: 'left',
-    padding: 10,
-    borderBottomWidth: 1,
-    display: 'flex',
     flexDirection: 'row',
     alignItems: 'center',
-    gap: 4,
-    paddingBottom: 10,
-    borderBottomLeftRadius: 16,
-    borderBottomRightRadius: 16,
+    gap: 6,
+    paddingVertical: 12,
+    paddingHorizontal: 16,
     backgroundColor: Colors.mainBackground,
     borderColor: Colors.border,
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.25,
-    shadowRadius: 3.84,
-    elevation: 5,
-  },
+    borderWidth: 1,
+
+},
 
   titleText: {
     fontSize: 40,
@@ -72,5 +65,6 @@ const styles = StyleSheet.create({
     alignItems: 'stretch',
     padding: 8,
     width: '100%',
+    paddingBottom: 72,
   },
 });

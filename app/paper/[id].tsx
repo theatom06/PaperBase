@@ -11,7 +11,6 @@ export default function PaperDetailScreen() {
   const author = "Steve";
   const published = '18 July 25';
   const description = "This is a sample paper for the 1st Mid Term exam. It covers all the important topics and is designed to help students prepare effectively.";
-  const tags = ['AP', 'GP', 'Reflection', 'Trigonometry'];
   const board = 'CBSE';
   const subject = 'Mathematics';
   const school = 'ABC High School';
@@ -46,7 +45,7 @@ export default function PaperDetailScreen() {
           />
 
           <Text style={[styles.title, { color: Colors.text }]}>{name}</Text>
-
+          <Text style={styles.school}>{school}</Text>
           <Text style={[styles.description, { color: Colors.textSecondary }]}>{description}</Text>
 
           <View style={styles.metadata}>
@@ -73,20 +72,15 @@ export default function PaperDetailScreen() {
             </View>
           </View>
 
-          <View style={styles.tagsContainer}>
-            {tags.map((tag, idx) => (
-              <View key={idx} style={[styles.tag, { backgroundColor: Colors.tagBackground }]}>
-                <Text style={{ color: Colors.tagText, fontSize: 16 }}>#{tag}</Text>
-              </View>
-            ))}
-          </View>
+          <Pressable style={styles.button} onPress={() => console.log('Download')}>
+            <MaterialCommunityIcons name="download" size={20} color="#fff" />
+            <Text style={styles.buttonText}>Download Questions</Text>
+          </Pressable>
 
           <Pressable style={styles.button} onPress={() => console.log('Download')}>
             <MaterialCommunityIcons name="download" size={20} color="#fff" />
-            <Text style={styles.buttonText}>Download PDF</Text>
+            <Text style={styles.buttonText}>Download Answers</Text>
           </Pressable>
-
-          <View style={{ height: 32 }} />
         </View>
       </ScrollView>
     </>
@@ -118,7 +112,14 @@ const styles = StyleSheet.create({
   title: {
     fontSize: 32,
     fontWeight: '600',
-    marginBottom: 8,
+    marginBottom: 4,
+  },
+
+  school: {
+    fontSize: 18,
+    color: Colors.textSecondary,
+    marginBottom: 12,
+    fontStyle: 'italic',
   },
 
   metadata: {
@@ -126,6 +127,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'space-around',
     width: '100%',
+    marginBottom: 16,
   },
 
   metaElement: {
@@ -148,36 +150,13 @@ const styles = StyleSheet.create({
     textAlign: 'center',
   },
 
-  tagsContainer: {
-    flexDirection: 'row',
-    flexWrap: 'wrap',
-    marginVertical: 10,
-  },
-
-  tag: {
-    paddingHorizontal: 10,
-    paddingVertical: 4,
-    borderRadius: 12,
-    marginRight: 8,
-    marginBottom: 8,
-  },
-
-  ratingRow: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    marginBottom: 24,
-  },
-
-  rateLabel: {
-    fontSize: 14,
-    marginLeft: 12,
-  },
 
   button: {
     width: '100%',
     maxWidth: 400,
     flexDirection: 'row',
-    backgroundColor: '#6200ee',
+    backgroundColor: Colors.infoBlue,
+
     paddingVertical: 12,
     paddingHorizontal: 20,
     borderRadius: 10,

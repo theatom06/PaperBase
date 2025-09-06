@@ -1,5 +1,6 @@
 import React from 'react';
 import { Tabs } from 'expo-router';
+import { BlurView } from 'expo-blur';
 import Colors from '@/constants/Colors';
 import Icons from '@expo/vector-icons/MaterialIcons';
 
@@ -20,24 +21,30 @@ export default function TabLayout() {
       screenOptions={{
         headerShown: false,
         tabBarActiveTintColor: Colors.tint,
-        tabBarInactiveTintColor: '#888',
+        tabBarInactiveTintColor: '#333',
         tabBarStyle: {
+          position: 'absolute',
+          backgroundColor: 'transparent',
           borderColor: Colors.border,
-          padding: 16,
-          margin: 8,
-          marginTop: 4,
-          height: 64,
+          borderWidth: 1,
+          elevation: 0,
+          margin: 4,
           borderRadius: 16,
-          shadowColor: '#000',
-          shadowOffset: { width: 0, height: 2 },
-          shadowOpacity: 0.25,
-          shadowRadius: 3.84,
-          elevation: 5,
+          overflow: 'hidden',
           display: 'flex',
           flexDirection: 'row',
           justifyContent: 'space-around',
           alignItems: 'center',
+          padding: 32,
         },
+
+        tabBarBackground: () => (
+          <BlurView
+            intensity={100}
+            tint="light" 
+            style={{ flex: 1 }}
+          />
+        ),
 
         tabBarLabelStyle: {
           fontSize: 12,
@@ -60,7 +67,7 @@ export default function TabLayout() {
           tabBarIcon: ({ color }) => <Icon name="folder" color={color} />,
         }}
       />
-
+111
       <Tabs.Screen
         name="search"
         options={{

@@ -1,4 +1,4 @@
-import { View, StyleSheet, TextInput, FlatList, Text, TouchableOpacity, Pressable } from 'react-native';
+import { View, StyleSheet, TextInput, ScrollView, Text, TouchableOpacity, Pressable } from 'react-native';
 import { useState } from 'react';
 import { Stack } from 'expo-router';
 import Paper from '@/components/PaperCard';
@@ -8,8 +8,7 @@ import papers, { boards, subjects, schools } from '../fakeData';
 const filterTabs = ['Board', 'Subject', 'School'] as const;
 type FilterTab = typeof filterTabs[number];
 
-export default function SearchScreen() {
-
+export default function () {
   const [query, setQuery] = useState('');
   const [selectedTab, setSelectedTab] = useState<FilterTab>('Board');
   const [isExpanded, setIsExpanded] = useState(false);
@@ -48,13 +47,13 @@ export default function SearchScreen() {
   };
 
   const handleChipSelect = (category: string, value: string) => {
-    if (category === 'Board') {
+    if (category === 'Board')
       setSelectedBoard(value === selectedBoard ? null : value);
-    } else if (category === 'Subject') {
+    else if (category === 'Subject')
       setSelectedSubject(value === selectedSubject ? null : value);
-    } else if (category === 'School') {
+    else if (category === 'School')
       setSelectedSchool(value === selectedSchool ? null : value);
-    }
+
     updateResults(query,
       category === 'Board' ? (value === selectedBoard ? null : value) : selectedBoard,
       category === 'Subject' ? (value === selectedSubject ? null : value) : selectedSubject,
@@ -69,15 +68,12 @@ export default function SearchScreen() {
       style={[
         styles.chip,
         { backgroundColor: selected ? Colors.tint : '#eee' },
-      ]}
-    >
+      ]}>
       <Text style={{ color: selected ? '#fff' : '#000' }}>{value}</Text>
     </Pressable>
   );
 
   return (
-    <>
-      <Stack.Screen options={{ title: 'Search' }} />
       <View style={styles.container}>
         <View style={styles.inputContainer}>
           <TextInput
@@ -89,7 +85,7 @@ export default function SearchScreen() {
           />
 
           {isExpanded && (
-            <>
+            <View style={styles.filterContainer}>
               <View style={styles.tabs}>
                 {filterTabs.map((tab) => (
                   <TouchableOpacity
@@ -97,18 +93,18 @@ export default function SearchScreen() {
                     onPress={() => setSelectedTab(tab)}
                     style={[
                       styles.tab,
-                      { borderRightWidth: (filterTabs.indexOf(tab) === filterTabs.length - 1) ? 0 : 1 },
+                      { borderTopLeftRadius: filterTabs.indexOf(tab) === 0 ? 8 : 0,
+                        borderBottomLeftRadius: filterTabs.indexOf(tab) === 0 ? 8 : 0,
+                        borderTopRightRadius: filterTabs.indexOf(tab) === filterTabs.length - 1 ? 8 : 0,
+                        borderBottomRightRadius: filterTabs.indexOf(tab) === filterTabs.length - 1 ? 8 : 0,
+                      },
                       selectedTab === tab && {
                         backgroundColor: Colors.tint,
                       },
-                    ]}
-                  >
+                    ]}>
+
                     <Text
-                      style={{
-                        color: selectedTab === tab ? '#fff' : Colors.text,
-                        fontWeight: selectedTab === tab ? 'bold' : 'normal',
-                      }}
-                    >
+                      style={[styles.tabText, { color: selectedTab === tab ? '#fff' : Colors.tint }]}>
                       {tab}
                     </Text>
                   </TouchableOpacity>
@@ -127,13 +123,10 @@ export default function SearchScreen() {
                 )}
               </View>
 
-              <TouchableOpacity
-                style={styles.collapseBtn}
-                onPress={() => setIsExpanded(false)}
-              >
-                <Text style={{ color: Colors.tint }}>Collapse Filters</Text>
+              <TouchableOpacity style={styles.collapseBtn} onPress={() => setIsExpanded(false)}>
+                <Text style={styles.collapseBtnText}>Collapse Filter</Text>
               </TouchableOpacity>
-            </>
+            </View>
           )}
 
           {!isExpanded && (
@@ -145,60 +138,70 @@ export default function SearchScreen() {
           )}
 
         </View>
-        <FlatList
-          data={results}
-          keyExtractor={(item) => item.id}
-          renderItem={({ item }) => <Paper {...item} />}
+        <ScrollView
           contentContainerStyle={styles.list}
-          style={{ flexGrow: 1 }}
-        />
+          style={{ flexGrow: 1 }}>
+
+          {results.map((paper, idx) => (
+            <Paper
+              key={idx}
+              {...paper}
+            />
+          ))}
+
+        </ScrollView>
       </View>
-    </>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    padding: 8,
     backgroundColor: Colors.background,
   },
 
   inputContainer: {
-    marginBottom: 16,
-    backgroundColor: Colors.mainBackground,
-    borderRadius: 8,
     padding: 12,
-    shadowColor: Colors.shadow,
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.1,
-    shadowRadius: 4,
-    elevation: 2,
-    marginHorizontal: 8,
-
+    backgroundColor: Colors.mainBackground,
+    borderColor: Colors.border,
+    borderWidth: 1,
   },
 
   input: {
-    backgroundColor: '#eee',
+    backgroundColor: Colors.mainBackground,
+    borderColor: Colors.border,
+    borderWidth: 1,
     padding: 12,
     borderRadius: 8,
-    marginBottom: 12,
+  },
+
+  filterContainer: {
+    marginTop: 12,
+    padding: 8,
+    backgroundColor: Colors.mainBackground,
+    borderRadius: 8,
   },
 
   tabs: {
     flexDirection: 'row',
     justifyContent: 'space-around',
     marginBottom: 12,
-    backgroundColor: Colors.background,
     borderRadius: 8,
   },
 
   tab: {
-    paddingVertical: 6,
-    paddingHorizontal: 12,
+    paddingVertical: 8,
+    paddingHorizontal: 16,
     borderLeftColor: Colors.tint,
     width: '33%',
     borderColor: Colors.tint,
+    borderWidth: 1,
+  },
+
+  tabText: {
+    color: Colors.tint,
+    textAlign: 'center',
+    fontWeight: 'bold',
   },
 
   chipContainer: {
@@ -218,13 +221,20 @@ const styles = StyleSheet.create({
   collapseBtn: {
     alignSelf: 'flex-end',
     marginBottom: 12,
+    padding: 8,
+    backgroundColor: Colors.dangerRed,
+    borderRadius: 8,
+  },
+
+  collapseBtnText: {
+    color: '#fff',
+    textAlign: 'center',
   },
 
   activeChipsRow: {
     flexDirection: 'row',
     flexWrap: 'wrap',
     marginBottom: 12,
-    gap: 8,
   },
 
   list: {
@@ -233,7 +243,6 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'stretch',
     padding: 8,
-    gap: 8,
     width: '100%',
   },
 });
